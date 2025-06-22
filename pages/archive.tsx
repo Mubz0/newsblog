@@ -38,16 +38,17 @@ export default function Archive({ posts }: Props) {
   const years = Object.keys(groupedPosts).sort((a, b) => Number(b) - Number(a))
 
   return (
-    <Layout title="Archive - Scylax AI Newsletter">
-      <div className="min-h-screen bg-gray-50">
+    <Layout title="Archive - Scylax AI Security Newsletter">
+      <div className="min-h-screen bg-scylax-dark">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-indigo-50 to-purple-50 pt-20 pb-16">
-          <div className="max-w-6xl mx-auto px-4">
+        <section className="relative overflow-hidden bg-scylax-navy border-b border-scylax-gray">
+          <div className="absolute inset-0 bg-mesh-gradient opacity-30"></div>
+          <div className="relative max-w-7xl mx-auto px-4 py-20">
             <div className="text-center space-y-6 animate-fade-in">
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold text-white">
                 Newsletter Archive
               </h1>
-              <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+              <p className="text-xl text-gray-400 max-w-3xl mx-auto">
                 Explore our complete collection of AI security insights and cybersecurity analysis
               </p>
               
@@ -62,12 +63,12 @@ export default function Archive({ posts }: Props) {
                     placeholder="Search posts by title, content, or author..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all duration-200"
+                    className="input pl-12"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-center space-x-8 text-sm text-gray-600 pt-4">
+              <div className="flex items-center justify-center space-x-8 text-sm text-gray-400 pt-4">
                 <span>{filteredPosts.length} articles</span>
                 <span>•</span>
                 <span>{years.length} years of content</span>
@@ -81,34 +82,35 @@ export default function Archive({ posts }: Props) {
           <div className="max-w-6xl mx-auto px-4">
             {searchTerm && filteredPosts.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-600 text-lg">No posts found matching "{searchTerm}"</p>
+                <p className="text-gray-400 text-lg">No posts found matching "{searchTerm}"</p>
               </div>
             ) : (
               <div className="space-y-16">
                 {years.map(year => (
                   <div key={year} className="animate-slide-up">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-8 flex items-center">
+                    <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
                       <span>{year}</span>
-                      <span className="ml-4 text-sm font-normal text-gray-500">
+                      <span className="ml-4 text-sm font-normal text-gray-400">
                         ({groupedPosts[Number(year)].length} posts)
                       </span>
                     </h2>
                     
                     <div className="grid gap-6">
                       {groupedPosts[Number(year)].map((post) => (
-                        <article 
-                          key={post.slug} 
-                          className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+                        <Link 
+                          key={post.slug}
+                          href={`/posts/${post.slug}`}
+                          className="block"
                         >
-                          <Link href={`/posts/${post.slug}`}>
+                          <article className="card hover:border-scylax-accent/50 transition-all duration-200">
                             <div className="p-6 flex items-start space-x-6">
                               {/* Date Badge */}
                               <div className="flex-shrink-0 text-center">
-                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-lg flex flex-col items-center justify-center">
-                                  <span className="text-xs font-medium text-gray-600">
+                                <div className="w-16 h-16 bg-gradient-to-br from-scylax-accent/20 to-scylax-accent-dark/20 rounded-lg flex flex-col items-center justify-center">
+                                  <span className="text-xs font-medium text-gray-400">
                                     {new Date(post.date).toLocaleDateString('en-US', { month: 'short' })}
                                   </span>
-                                  <span className="text-lg font-bold text-gray-900">
+                                  <span className="text-lg font-bold text-white">
                                     {new Date(post.date).getDate()}
                                   </span>
                                 </div>
@@ -118,17 +120,17 @@ export default function Archive({ posts }: Props) {
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-start justify-between">
                                   <div className="flex-1">
-                                    <h3 className="text-xl font-semibold text-gray-900 hover:text-indigo-600 transition-colors mb-2">
+                                    <h3 className="text-xl font-semibold text-white hover:text-scylax-accent transition-colors mb-2">
                                       {post.title}
                                     </h3>
-                                    <p className="text-gray-600 line-clamp-2 mb-3">
+                                    <p className="text-gray-400 line-clamp-2 mb-3">
                                       {post.excerpt}
                                     </p>
                                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                                       {post.author && (
                                         <>
                                           <span className="flex items-center space-x-2">
-                                            <div className="w-6 h-6 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                            <div className="w-6 h-6 bg-gradient-to-br from-scylax-accent to-scylax-accent-dark rounded-full flex items-center justify-center text-white text-xs font-semibold">
                                               {post.author.charAt(0).toUpperCase()}
                                             </div>
                                             <span>{post.author}</span>
@@ -147,8 +149,8 @@ export default function Archive({ posts }: Props) {
                                 </div>
                               </div>
                             </div>
-                          </Link>
-                        </article>
+                          </article>
+                        </Link>
                       ))}
                     </div>
                   </div>

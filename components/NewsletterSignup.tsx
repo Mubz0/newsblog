@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 interface NewsletterSignupProps {
-  variant?: 'default' | 'light'
+  variant?: 'default' | 'light' | 'dark'
 }
 
 export default function NewsletterSignup({ variant = 'default' }: NewsletterSignupProps) {
@@ -51,6 +51,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
   }
 
   const isLight = variant === 'light'
+  const isDark = variant === 'dark'
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -65,9 +66,11 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
               flex-1 px-6 py-4 rounded-full text-base
               ${isLight 
                 ? 'bg-white/20 backdrop-blur-sm text-white placeholder-white/70 border border-white/30' 
+                : isDark
+                ? 'bg-scylax-navy text-gray-100 placeholder-gray-500 border border-scylax-gray'
                 : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200 shadow-sm'
               }
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent
+              focus:outline-none focus:ring-2 focus:ring-scylax-accent focus:border-transparent
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
             `}
@@ -80,9 +83,11 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
               px-8 py-4 rounded-full font-semibold text-base
               ${isLight
                 ? 'bg-white text-indigo-600 hover:bg-gray-100'
+                : isDark || variant === 'default'
+                ? 'bg-scylax-accent text-white hover:bg-scylax-accent-dark'
                 : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700'
               }
-              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+              focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-scylax-accent
               disabled:opacity-50 disabled:cursor-not-allowed
               transform transition-all duration-200 hover:scale-105 active:scale-95
               shadow-lg
@@ -118,7 +123,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
 
       <p className={`
         mt-4 text-sm text-center
-        ${isLight ? 'text-white/80' : 'text-gray-500'}
+        ${isLight ? 'text-white/80' : isDark ? 'text-gray-400' : 'text-gray-500'}
       `}>
         No spam. Unsubscribe anytime.
       </p>
