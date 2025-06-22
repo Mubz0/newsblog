@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
+import { calculateReadingTime } from './utils'
 
 const postsDirectory = path.join(process.cwd(), 'content/posts')
 
@@ -10,6 +11,9 @@ export interface Post {
   excerpt: string
   date: string
   content: string
+  author?: string
+  image?: string
+  readingTime?: string
 }
 
 export function getAllPosts(): Omit<Post, 'content'>[] {
@@ -21,13 +25,16 @@ export function getAllPosts(): Omit<Post, 'content'>[] {
         const slug = fileName.replace(/\.mdx$/, '')
         const fullPath = path.join(postsDirectory, fileName)
         const fileContents = fs.readFileSync(fullPath, 'utf8')
-        const { data } = matter(fileContents)
+        const { data, content } = matter(fileContents)
 
         return {
           slug,
           title: data.title || 'Untitled',
           excerpt: data.excerpt || '',
           date: data.date || new Date().toISOString().split('T')[0],
+          author: data.author || 'Scylax AI Team',
+          image: data.image || null,
+          readingTime: calculateReadingTime(content),
         }
       })
 
@@ -50,6 +57,9 @@ export function getPostBySlug(slug: string): Post | null {
       excerpt: data.excerpt || '',
       date: data.date || new Date().toISOString().split('T')[0],
       content,
+      author: data.author || 'Scylax AI Team',
+      image: data.image || null,
+      readingTime: calculateReadingTime(content),
     }
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error)
