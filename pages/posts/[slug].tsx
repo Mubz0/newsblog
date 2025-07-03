@@ -10,9 +10,11 @@ import { useState } from 'react'
 interface PostPageProps {
   post: Omit<Post, 'content'>
   mdxSource: MDXRemoteSerializeResult
+  nextPost?: Omit<Post, 'content'> | null
+  previousPost?: Omit<Post, 'content'> | null
 }
 
-export default function PostPage({ post, mdxSource }: PostPageProps) {
+export default function PostPage({ post, mdxSource, nextPost, previousPost }: PostPageProps) {
   const [copied, setCopied] = useState(false)
 
   const shareUrl = typeof window !== 'undefined' 
@@ -143,9 +145,32 @@ export default function PostPage({ post, mdxSource }: PostPageProps) {
                 <NewsletterSignup variant="dark" />
               </div>
 
+              {/* Next/Previous Navigation */}
+              {(nextPost || previousPost) && (
+                <div className="mt-12">
+                  <h3 className="text-2xl font-bold text-white mb-6">Keep Reading</h3>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {previousPost && (
+                      <a href={`/posts/${previousPost.slug}`} className="card hover:bg-scylax-gray transition-colors">
+                        <div className="text-sm text-scylax-accent mb-2">← Previous</div>
+                        <h4 className="font-semibold text-white mb-2">{previousPost.title}</h4>
+                        <p className="text-gray-400 text-sm">{previousPost.excerpt}</p>
+                      </a>
+                    )}
+                    {nextPost && (
+                      <a href={`/posts/${nextPost.slug}`} className="card hover:bg-scylax-gray transition-colors">
+                        <div className="text-sm text-scylax-accent mb-2">Next →</div>
+                        <h4 className="font-semibold text-white mb-2">{nextPost.title}</h4>
+                        <p className="text-gray-400 text-sm">{nextPost.excerpt}</p>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Related Posts Suggestion */}
               <div className="mt-12">
-                <h3 className="text-2xl font-bold text-white mb-6">Keep Reading</h3>
+                <h3 className="text-2xl font-bold text-white mb-6">More Articles</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <a href="/posts/ai-agents-security-risks" className="card hover:bg-scylax-gray transition-colors">
                     <h4 className="font-semibold text-white mb-2">Your AI Agents Are Talking. Are You Listening to the Security Risks?</h4>
@@ -199,6 +224,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const mdxSource = await serialize(post.content)
 
+  // Get all posts sorted by date to find next/previous
+  const allPosts = getAllPosts()
+  const currentPostIndex = allPosts.findIndex(p => p.slug === slug)
+  
+  const nextPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : null
+  const previousPost = currentPostIndex < allPosts.length - 1 ? allPosts[currentPostIndex + 1] : null
+
   return {
     props: {
       post: {
@@ -211,6 +243,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         readingTime: post.readingTime,
       },
       mdxSource,
+      nextPost,
+      previousPost,
     },
   }
 }
