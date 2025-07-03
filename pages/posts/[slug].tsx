@@ -168,30 +168,19 @@ export default function PostPage({ post, mdxSource, nextPost, previousPost }: Po
                 </div>
               )}
 
-              {/* Related Posts Suggestion */}
-              <div className="mt-12">
-                <h3 className="text-2xl font-bold text-white mb-6">More Articles</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <a href="/posts/ai-agents-security-risks" className="card hover:bg-scylax-gray transition-colors">
-                    <h4 className="font-semibold text-white mb-2">Your AI Agents Are Talking. Are You Listening to the Security Risks?</h4>
-                    <p className="text-gray-400 text-sm">A breakdown of the new OWASP guide on why teams of autonomous AI agents represent the next frontier of security threats.</p>
-                  </a>
-                  <a href="/posts/llm-jailbreaking-techniques" className="card hover:bg-scylax-gray transition-colors">
-                    <h4 className="font-semibold text-white mb-2">LLM Jailbreaking: Understanding and Preventing Prompt Injection Attacks</h4>
-                    <p className="text-gray-400 text-sm">A deep dive into the latest techniques used to bypass AI safety measures and how to defend against them.</p>
-                  </a>
-                </div>
-                <div className="grid md:grid-cols-2 gap-6 mt-6">
-                  <a href="/posts/ai-security-fundamentals" className="card hover:bg-scylax-gray transition-colors">
-                    <h4 className="font-semibold text-white mb-2">AI Security Fundamentals: Protecting Machine Learning Systems</h4>
-                    <p className="text-gray-400 text-sm">Essential security principles for AI systems, covering data poisoning, model stealing, and adversarial attacks.</p>
-                  </a>
-                  <a href="/posts/welcome" className="card hover:bg-scylax-gray transition-colors">
-                    <h4 className="font-semibold text-white mb-2">Welcome to Scylax AI Newsletter</h4>
-                    <p className="text-gray-400 text-sm">Your go-to source for AI security insights, cybersecurity trends, and emerging threat analysis.</p>
-                  </a>
-                </div>
+              {/* Return to top */}
+              <div className="mt-8 pt-8 border-t border-scylax-gray text-center">
+                <button 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="inline-flex items-center space-x-2 text-gray-400 hover:text-scylax-accent transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                  </svg>
+                  <span>Return to top</span>
+                </button>
               </div>
+
             </div>
           </div>
         </section>
