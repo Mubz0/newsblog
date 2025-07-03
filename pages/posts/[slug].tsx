@@ -61,7 +61,7 @@ export default function PostPage({ post, mdxSource }: PostPageProps) {
                   </div>
                   <div>
                     <p className="font-semibold text-white">{post.author}</p>
-                    <p className="text-sm text-gray-400">AI Security Expert</p>
+                    <p className="text-sm text-gray-400">AI Security Evangelist</p>
                   </div>
                 </div>
 
