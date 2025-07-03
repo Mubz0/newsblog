@@ -147,14 +147,24 @@ export default function PostPage({ post, mdxSource }: PostPageProps) {
               <div className="mt-12">
                 <h3 className="text-2xl font-bold text-white mb-6">Keep Reading</h3>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="card">
-                    <h4 className="font-semibold text-white mb-2">Next: Advanced AI Threat Detection</h4>
-                    <p className="text-gray-400 text-sm">Learn about cutting-edge techniques for identifying AI-based attacks</p>
-                  </div>
-                  <div className="card">
-                    <h4 className="font-semibold text-white mb-2">Previous: Introduction to AI Security</h4>
-                    <p className="text-gray-400 text-sm">Start your journey into understanding AI security fundamentals</p>
-                  </div>
+                  <a href="/posts/ai-agents-security-risks" className="card hover:bg-scylax-gray transition-colors">
+                    <h4 className="font-semibold text-white mb-2">Your AI Agents Are Talking. Are You Listening to the Security Risks?</h4>
+                    <p className="text-gray-400 text-sm">A breakdown of the new OWASP guide on why teams of autonomous AI agents represent the next frontier of security threats.</p>
+                  </a>
+                  <a href="/posts/llm-jailbreaking-techniques" className="card hover:bg-scylax-gray transition-colors">
+                    <h4 className="font-semibold text-white mb-2">LLM Jailbreaking: Understanding and Preventing Prompt Injection Attacks</h4>
+                    <p className="text-gray-400 text-sm">A deep dive into the latest techniques used to bypass AI safety measures and how to defend against them.</p>
+                  </a>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6 mt-6">
+                  <a href="/posts/ai-security-fundamentals" className="card hover:bg-scylax-gray transition-colors">
+                    <h4 className="font-semibold text-white mb-2">AI Security Fundamentals: Protecting Machine Learning Systems</h4>
+                    <p className="text-gray-400 text-sm">Essential security principles for AI systems, covering data poisoning, model stealing, and adversarial attacks.</p>
+                  </a>
+                  <a href="/posts/welcome" className="card hover:bg-scylax-gray transition-colors">
+                    <h4 className="font-semibold text-white mb-2">Welcome to Scylax AI Newsletter</h4>
+                    <p className="text-gray-400 text-sm">Your go-to source for AI security insights, cybersecurity trends, and emerging threat analysis.</p>
+                  </a>
                 </div>
               </div>
             </div>
