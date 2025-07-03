@@ -60,7 +60,7 @@ export default function Layout({ children, title = 'Scylax AI Security Newslette
                 </div>
                 <div>
                   <span className="text-xl font-bold text-white">
-                    Scylax <span className="text-scylax-accent">Newsletter</span>
+                    Scylax AI <span className="text-scylax-accent">Newsletter</span>
                   </span>
                   <p className="text-xs text-gray-400">AI Security Intelligence</p>
                 </div>
@@ -145,7 +145,7 @@ export default function Layout({ children, title = 'Scylax AI Security Newslette
                     <span className="text-white font-bold text-2xl">S</span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">Scylax Newsletter</h3>
+                    <h3 className="text-xl font-bold text-white">Scylax AI Newsletter</h3>
                     <p className="text-xs text-gray-400">AI Security Intelligence</p>
                   </div>
                 </div>
