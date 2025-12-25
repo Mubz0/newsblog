@@ -22,9 +22,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
     setMessage('')
 
     try {
-      const endpoint = process.env.NODE_ENV === 'production'
-        ? '/.netlify/functions/subscribe'
-        : '/api/subscribe'
+      const endpoint = '/api/subscribe'
 
       const response = await fetch(endpoint, {
         method: 'POST',

@@ -169,10 +169,8 @@ export default function Archive({ posts }: Props) {
             <p className="text-xl mb-8 opacity-90">
               Subscribe to get the latest AI security insights delivered to your inbox.
             </p>
-            <Link href="/#subscribe">
-              <a className="inline-block bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors transform hover:scale-105 shadow-lg">
-                Subscribe Now
-              </a>
+            <Link href="/#subscribe" className="inline-block bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-colors transform hover:scale-105 shadow-lg">
+              Subscribe Now
             </Link>
           </div>
         </section>

@@ -37,3 +37,4 @@ next-env.d.ts
 /data/subscribers.json
 # Local Netlify folder
 .netlify
+logs/

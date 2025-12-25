@@ -1,11 +1,11 @@
 # Scylax AI Newsletter
 
-A Substack-like newsletter platform built with Next.js, deployed on Netlify, and powered by Resend for email delivery.
+A Substack-like newsletter platform built with Next.js, deployed on Azure Container Apps, and powered by Resend for email delivery.
 
 ## Features
 
 - 📝 MDX-powered blog posts
-- 📧 Email newsletter signup with Resend integration
+- 📧 Email newsletter signup with SendGrid integration
 - 📱 Responsive design similar to Substack
 - 🚀 Static site generation for optimal performance
 - 🔒 Subscriber management system
@@ -21,7 +21,7 @@ A Substack-like newsletter platform built with Next.js, deployed on Netlify, and
 2. **Add environment variables:**
    Create a `.env.local` file:
    ```
-   RESEND_API_KEY=your_resend_api_key_here
+   SENDGRID_API_KEY=your_sendgrid_api_key_here
    ```
 
 3. **Development:**
@@ -37,23 +37,15 @@ A Substack-like newsletter platform built with Next.js, deployed on Netlify, and
 
 ## Deployment
 
-### Netlify Setup
+### Azure Container Apps
 
-1. Connect your repository to Netlify
-2. Set build command: `npm run build && npm run export`
-3. Set publish directory: `out`
-4. Add environment variable: `RESEND_API_KEY`
+Deployed via GitHub Actions to Azure Container Apps.
 
-### Custom Domain
+- **Container Registry:** `agentboxacr.azurecr.io`
+- **Image:** `scylax-newsletter`
+- **Resource Group:** `agentbox-rg`
 
-To set up newsletter.scylax.ai:
-
-1. In Netlify dashboard, go to Domain settings
-2. Add custom domain: `newsletter.scylax.ai`
-3. Configure DNS with your domain provider:
-   - Type: CNAME
-   - Name: newsletter
-   - Value: your-netlify-site.netlify.app
+Push to `main` branch triggers automatic build and deployment.
 
 ## Content Management
 
@@ -75,7 +67,7 @@ To set up newsletter.scylax.ai:
 The newsletter signup form automatically:
 - Validates email addresses
 - Stores subscribers in `data/subscribers.json`
-- Sends welcome emails via Resend
+- Sends welcome emails via SendGrid
 - Handles unsubscribe requests
 
 ## Project Structure
@@ -87,12 +79,12 @@ The newsletter signup form automatically:
 ├── pages/              # Next.js pages
 ├── styles/             # CSS styles
 ├── data/               # Subscriber data (auto-created)
-└── netlify.toml        # Netlify configuration
+└── Dockerfile          # Container configuration
 ```
 
 ## Environment Variables
 
-- `RESEND_API_KEY`: Your Resend API key for email delivery
+- `SENDGRID_API_KEY`: Your SendGrid API key for email delivery
 - `NODE_ENV`: Environment (development/production)
 
 ## License

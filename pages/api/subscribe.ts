@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { Resend } from 'resend'
+import sgMail from '@sendgrid/mail'
 import { addSubscriber } from '../../lib/subscribers'
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -23,9 +25,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(409).json({ error: 'Email already subscribed' })
     }
     
-    // Send welcome email (skip in test mode)
-    if (resend && process.env.NODE_ENV !== 'development') {
-      await resend.emails.send({
+    // Send welcome email (skip in development mode)
+    if (process.env.SENDGRID_API_KEY && process.env.NODE_ENV !== 'development') {
+      await sgMail.send({
         from: 'newsletter@scylax.ai',
         to: email,
         subject: 'Welcome to Scylax AI Newsletter',
