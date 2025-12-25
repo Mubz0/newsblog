@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 interface NewsletterSignupProps {
-  variant?: 'default' | 'hero' | 'cta' | 'minimal'
+  variant?: 'default' | 'hero' | 'cta' | 'minimal' | 'dark'
 }
 
 export default function NewsletterSignup({ variant = 'default' }: NewsletterSignupProps) {
@@ -53,13 +53,14 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
   const isHero = variant === 'hero'
   const isCta = variant === 'cta'
   const isMinimal = variant === 'minimal'
+  const isDark = variant === 'dark'
 
   return (
     <div className="w-full max-w-lg mx-auto">
       <form onSubmit={handleSubmit} className="relative">
         <div className={`
           flex flex-col sm:flex-row gap-3
-          ${isHero ? 'p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl' : ''}
+          ${isHero || isDark ? 'p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl' : ''}
         `}>
           <input
             type="email"
@@ -71,7 +72,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
               transition-all duration-300
               focus:outline-none
               disabled:opacity-50 disabled:cursor-not-allowed
-              ${isHero || isCta
+              ${isHero || isCta || isDark
                 ? `bg-white/5 text-white placeholder-white/50
                    border border-white/10 rounded-xl
                    focus:border-scylax-cyan/50 focus:bg-white/10
