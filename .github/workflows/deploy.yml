@@ -1,4 +1,4 @@
-name: Deploy to Azure Container Apps
+name: Build and Deploy Newsletter
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: scylax-newsletter
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,9 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -33,17 +36,13 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Deploy to Azure Container Apps
-        uses: azure/cli@v2
-        with:
-          azcliversion: latest
-          inlineScript: |
-            az login --service-principal \
-              -u ${{ secrets.AZURE_CLIENT_ID }} \
-              -p ${{ secrets.AZURE_CLIENT_SECRET }} \
-              --tenant ${{ secrets.AZURE_TENANT_ID }}
-            az containerapp update \
-              --name newsletter \
-              --resource-group agentbox-rg \
-              --image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+      - name: Trigger Container App update
+        run: |
+          curl -X POST "${{ secrets.DEPLOY_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{"image":"${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"}'
+        if: ${{ secrets.DEPLOY_WEBHOOK_URL != '' }}
+        continue-on-error: true
