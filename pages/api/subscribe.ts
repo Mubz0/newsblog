@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Send welcome email (skip in development mode)
     if (process.env.SENDGRID_API_KEY && process.env.NODE_ENV !== 'development') {
       await sgMail.send({
-        from: 'newsletter@scylax.ai',
+        from: process.env.SENDGRID_FROM_EMAIL || 'contact@scylax.ai',
         to: email,
         subject: 'Welcome to Scylax AI Newsletter',
         html: `
