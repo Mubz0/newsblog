@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Turnstile from './Turnstile'
 
 interface NewsletterSignupProps {
   variant?: 'default' | 'hero' | 'cta' | 'minimal' | 'dark'
@@ -8,6 +9,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,7 +31,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, turnstileToken }),
       })
 
       const data = await response.json()
@@ -38,6 +40,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
         setStatus('success')
         setMessage('Welcome aboard! Check your email for confirmation.')
         setEmail('')
+        setTurnstileToken(null)
       } else {
         setStatus('error')
         setMessage(data.error || 'Something went wrong. Please try again.')
@@ -104,7 +107,7 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
               }
             `}
             style={!isCta ? { background: 'linear-gradient(to right, #00f0ff, #7b2cff)' } : undefined}
-            disabled={status === 'loading'}
+            disabled={status === 'loading' || !turnstileToken}
           >
             {/* Button glow effect */}
             <span className="absolute inset-0 opacity-0 hover:opacity-60 transition-opacity duration-300"
@@ -130,6 +133,14 @@ export default function NewsletterSignup({ variant = 'default' }: NewsletterSign
             </span>
           </button>
         </div>
+
+        {/* Turnstile Bot Protection */}
+        <Turnstile
+          onVerify={(token) => setTurnstileToken(token)}
+          onError={() => setTurnstileToken(null)}
+          onExpire={() => setTurnstileToken(null)}
+          className="mt-4 flex justify-center"
+        />
       </form>
 
       {/* Status Message */}

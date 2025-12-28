@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import sgMail from '@sendgrid/mail'
 import { addSubscriber } from '../../lib/subscribers'
+import { requireTurnstile } from '../../lib/turnstile'
 
 if (process.env.SENDGRID_API_KEY) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -11,7 +12,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { email } = req.body
+  const { email, turnstileToken } = req.body
+
+  // Verify Turnstile token first
+  const turnstileError = await requireTurnstile(turnstileToken)
+  if (turnstileError) {
+    return res.status(turnstileError.status).json({ error: turnstileError.error })
+  }
 
   if (!email || !email.includes('@')) {
     return res.status(400).json({ error: 'Valid email is required' })
