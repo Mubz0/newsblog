@@ -3,6 +3,9 @@ const withMDX = require('@next/mdx')()
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
 
+  // Transpile ESM packages for compatibility
+  transpilePackages: ['@marsidev/react-turnstile'],
+
   // For Docker/Azure deployment - use standalone output
   ...(process.env.DOCKER_BUILD && {
     output: 'standalone',
